@@ -12,9 +12,8 @@
 
 ## Installation
 
-1. Ensure you have the `ox_inventory` installed and properly configured in your FiveM server.
-2. Copy the `demi_lootbox` folder into your server's resources directory.
-3. Add `ensure demi_lootbox` to your server configuration file.
+1. Copy the `demi_lootbox` folder into your server's resources directory.
+2. Add `ensure demi_lootbox` to your server configuration file.
 
 ## Configuration
 
