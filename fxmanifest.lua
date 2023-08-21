@@ -4,7 +4,10 @@ game "gta5"
 
 ui_page 'web/build/index.html'
 
-shared_script '@ox_lib/init.lua'
+shared_scripts {
+  "@ox_lib/init.lua",
+  "init.lua"
+}
 
 client_script "client/**/*"
 server_script "server/**/*"

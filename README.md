@@ -8,12 +8,19 @@
 
 - **Customizable Cases:** Define your own cases with varying rarity levels (common, uncommon, rare, epic, legendary).
 - **UI:** A UI that gives players a sense of anticipation when opening cases.
-- **Dependencies:** ESX or QB or standalone with ox_inventory
+- **Dependencies:** ox_core, ESX, QB, or standalone with ox_inventory.
 
 ## Installation
 
 1. Copy the `demi_lootbox` folder into your server's resources directory.
 2. Add `ensure demi_lootbox` to your server configuration file.
+
+## Build
+
+1. `git clone https://github.com/Demigod916/demi_lootbox.git`
+2. `cd demi_lootbox/web`
+3. `pnpm i`
+4. `pnpm build`
 
 ## Configuration
 
@@ -55,7 +62,6 @@ You can use the exported function to open a case programmatically through an ite
 exports.demi_lootbox.openCase(caseName)
 ```
 
-
 ## Probabilities
 for those curious about the chances
 
@@ -74,4 +80,3 @@ for those curious about the chances
 ## Feedback & Support
 
 For any feedback or support regarding the script, please reach out in the forums or discord `demiautomatic`.
-
