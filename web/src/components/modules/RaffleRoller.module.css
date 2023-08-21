@@ -1,0 +1,43 @@
+.container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  height: 18rem;
+  aspect-ratio: 4;
+  border-radius: 0.3rem;
+  background: black;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  overflow: hidden;
+  border: 0.01rem solid whitesmoke;
+
+  --cardWidth: 15rem;
+}
+
+.currentItemMarker {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  height: 100%;
+  width: 0.2rem;
+  background: red;
+}
+
+.roller {
+  position: absolute;
+  left: calc(50% + calc(var(--cardWidth) / 2 + 1rem));
+  border-radius: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  gap: 1rem;
+}
+
+.filter {
+  width: 20rem;
+  height: 100%;
+  backdrop-filter: blur(0.3rem);
+}

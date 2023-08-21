@@ -1,0 +1,45 @@
+.container {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
+.rollButton {
+  background: black;
+  color: whitesmoke;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  aspect-ratio: 3;
+  border: none;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  position: absolute;
+  bottom: 30%;
+  left: 50%;
+  translate: -50%;
+  font-size: 2.5rem;
+}
+
+.rollButton:hover {
+  background: rgb(33, 33, 33);
+}
+
+.inventory {
+  bottom: 3%;
+  left: 50%;
+  translate: -50%;
+  position: absolute;
+  background: rgb(33, 33, 33, 0.65);
+  height: 10rem;
+  aspect-ratio: 6;
+  overflow-x: auto;
+  display: flex;
+  align-items: cent;
+  justify-content: left;
+  /* flex-direction: row-reverse; */
+  padding: 1rem;
+  gap: 1rem;
+  border-radius: 0.1rem;
+}

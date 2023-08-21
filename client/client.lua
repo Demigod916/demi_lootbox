@@ -1,25 +1,18 @@
-local function toggleNuiFrame(shouldShow)
-  SetNuiFocus(shouldShow, shouldShow)
-  SendReactMessage('setVisible', shouldShow)
+local function getWinnerForCase(case)
+  local lootPool, winner = lib.callback.await('demi_lootbox:getCaseAndWinner', false, case)
+
+  SendReactMessage('setLootData', { pool = lootPool, winner = winner })
 end
 
-RegisterCommand('show-nui', function()
-  toggleNuiFrame(true)
-  debugPrint('Show NUI frame')
+RegisterCommand('opencase', function(src, args)
+  if not args[1] then return end
+  getWinnerForCase(args[1])
 end)
 
-RegisterNUICallback('hideFrame', function(_, cb)
-  toggleNuiFrame(false)
-  debugPrint('Hide NUI frame')
+exports('openCase', getWinnerForCase)
+
+
+RegisterNUICallback('finished', function(_,cb)
+  TriggerServerEvent('demi_lootbox:getQueuedItem')
   cb({})
-end)
-
-RegisterNUICallback('getClientData', function(data, cb)
-  debugPrint('Data sent by React', json.encode(data))
-
--- Lets send back client coords to the React frame for use
-  local curCoords = GetEntityCoords(PlayerPedId())
-
-  local retData <const> = { x = curCoords.x, y = curCoords.y, z = curCoords.z }
-  cb(retData)
 end)

@@ -1,0 +1,43 @@
+.item {
+  position: relative;
+  height: var(--cardWidth);
+  aspect-ratio: 1;
+  box-shadow: 0 0 0 0.1rem whitesmoke;
+  border-radius: inherit;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.itemImage {
+  position: absolute;
+  height: 80%;
+  aspect-ratio: 1;
+  border-radius: inherit;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.rarityGlow {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  border-radius: inherit;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.label {
+  position: absolute;
+  max-width: 100%;
+  color: whitesmoke;
+  bottom: 1rem;
+  text-align: center;
+  white-space: nowrap;
+}
