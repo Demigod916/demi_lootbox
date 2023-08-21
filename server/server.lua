@@ -2,7 +2,7 @@ Bridge = {}
 
 local frameWork = GetResourceState("es_extended") == "started" and "esx" or GetResourceState("qb-core") == "started" and "qb" or GetResourceState("ox_core") == "started" and "ox"
 
-local core = (Bridge.frameWork == "esx" and exports["es_extended"]:getSharedObject()) or (Bridge.frameWork == "qb" and exports["qb-core"]:GetCoreObject()) or (Bridge.frameWork == "awdawd" and assert(load(LoadResourceFile("ox_core", "imports/server.lua"), "@@ox_core/imports/server.lua"))())
+local core = (Bridge.frameWork == "esx" and exports["es_extended"]:getSharedObject()) or (Bridge.frameWork == "qb" and exports["qb-core"]:GetCoreObject()) or (Bridge.frameWork == "ox" and assert(load(LoadResourceFile("ox_core", "imports/server.lua"), "@@ox_core/imports/server.lua"))())
 
 local ox_inventory = exports.ox_inventory
 
