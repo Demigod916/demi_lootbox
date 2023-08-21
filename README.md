@@ -8,7 +8,7 @@
 
 - **Customizable Cases:** Define your own cases with varying rarity levels (common, uncommon, rare, epic, legendary).
 - **UI:** A UI that gives players a sense of anticipation when opening cases.
-- **Dependencies:** The script requires `ox_inventory` to function properly.
+- **Dependencies:** ESX or QB or standalone with ox_inventory
 
 ## Installation
 
