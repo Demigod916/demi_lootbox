@@ -87,5 +87,5 @@ RegisterNetEvent('demi_lootbox:getQueuedItem', function()
         return
     end
 
-    Bridge.giveItem(source, playerLootQueue[source].name, playerLootQueue[source].amount)
+    Bridge.GiveItem(source, playerLootQueue[source].name, playerLootQueue[source].amount)
 end)
