@@ -4,9 +4,9 @@ local frameWork =
     GetResourceState("qb-core") == "started" and 'qb'
 
 local core =
-    (Bridge.frameWork == "esx" and exports["es_extended"]:getSharedObject())
+    (frameWork == "esx" and exports["es_extended"]:getSharedObject())
     or
-    (Bridge.frameWork == "qb" and exports["qb-core"]:GetCoreObject())
+    (frameWork == "qb" and exports["qb-core"]:GetCoreObject())
 
 local ox_inventory = exports.ox_inventory
 
