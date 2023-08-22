@@ -3,8 +3,6 @@ if IsDuplicityVersion() then
 	PlayerLootQueue = {}
 	PoolSize = 100
 	Debug = true
-else
-	--
 end
 
 ---source https://github.com/overextended/ox_inventory/blob/main/init.lua#L194
