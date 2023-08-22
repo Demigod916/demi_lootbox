@@ -8,7 +8,10 @@
 
 - **Customizable Cases:** Define your own cases with varying rarity levels *(common, uncommon, rare, epic, legendary)*.
 - **UI:** A UI that gives players a sense of anticipation when opening cases.
-- **Dependencies:** ox_core, ESX, QB, or standalone with ox_inventory.
+
+## Dependecies
+- ox_lib
+- ox_core, ESX, QB, or standalone with ox_inventory.
 
 ## Installation
 
