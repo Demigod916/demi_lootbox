@@ -6,32 +6,23 @@
 
 ## Features
 
-- **Customizable Cases:** Define your own cases with varying rarity levels *(common, uncommon, rare, epic, legendary)*.
+- **Customizable Cases:** Define your own cases with varying rarity levels (common, uncommon, rare, epic, legendary).
 - **UI:** A UI that gives players a sense of anticipation when opening cases.
-
-## Dependecies
-- ox_lib
-- ox_core, ESX, QB, or standalone with ox_inventory.
+- **Dependencies:** ESX or QB or standalone with ox_inventory
 
 ## Installation
 
 1. Copy the `demi_lootbox` folder into your server's resources directory.
 2. Add `ensure demi_lootbox` to your server configuration file.
 
-### Build
-
-1. `git clone https://github.com/Demigod916/demi_lootbox.git`
-2. `cd demi_lootbox/web`
-3. `pnpm i`
-4. `pnpm build`
-
 ## Configuration
 
-The primary configuration for your cases is done within the `CASES` table found in `server/data.lua`. Here, you can define your own cases with varying rarity levels and the weapons/items each rarity level might contain.
+The primary configuration for your cases is done within the `CASES` table found in `server/data.lua` Here, you can define your own cases with varying rarity levels and the weapons/items each rarity level might contain.
 
-Each rarity should have at least 1 item in it, or the script wont work properly.
+each rarity should have at least 1 item in it, or the script wont work properly.
 
-Example;
+Example:
+
 ```lua
 CASES = {
     ['weapon_case'] = {
@@ -49,24 +40,24 @@ CASES = {
 
 ## Usage
 
-Test a case by using;
+To test a case:
 ```
 /opencase [case_name]
 ```
+Replace `[case_name]` with the actual name of the case you want to open (for instance, `weapon_case`).
 
-- Replace `[case_name]` with the actual name of the case you want to open *(for instance, `weapon_case`)*.
+ideally you would remove this command before putting it in your server
 
-- Ideally you would remove this command before putting it in your server
-
-### Exported Functions
-You can use the exported function to open a case programmatically through item use or something;
+## Exported Functions
+You can use the exported function to open a case programmatically through an item use or something:
 
 ```lua
 exports.demi_lootbox.openCase(caseName)
 ```
 
-### Probabilities
-For those curious about the chances;
+
+## Probabilities
+for those curious about the chances
 
 - Common: 80%
 - Uncommon: 16%
@@ -74,7 +65,7 @@ For those curious about the chances;
 - Epic: 0.64%
 - Legendary: 0.26%
 
-### Client-Side Functions
+## Client-Side Functions
 
 - `getWinnerForCase(case)`: A function to get the winning item for a specific case.
 - Command `/opencase`: To open a specified case.
@@ -83,3 +74,4 @@ For those curious about the chances;
 ## Feedback & Support
 
 For any feedback or support regarding the script, please reach out in the forums or discord `demiautomatic`.
+
