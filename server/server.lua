@@ -1,133 +1,111 @@
-local frameWork =
-    GetResourceState("es_extended") == "started" and 'esx'
-    or
-    GetResourceState("qb-core") == "started" and 'qb'
-
-local core =
-    (frameWork == "esx" and exports["es_extended"]:getSharedObject())
-    or
-    (frameWork == "qb" and exports["qb-core"]:GetCoreObject())
-
-local ox_inventory = exports.ox_inventory
-
-local POOL_SIZE = 100
-
+---@param t1 table
+---@param t2 table
+---@return table
 local function tableConcat(t1, t2)
-    for i = 1, #t2 do
-        t1[#t1 + 1] = t2[i]
-    end
-    return t1
+	for i = 1, #t2 do
+		t1[#t1 + 1] = t2[i]
+	end
+	return t1
 end
 
+---@param tbl table
+---@return table
 local function shuffle(tbl)
-    for i = #tbl, 2, -1 do
-        local j = math.random(i)
-        tbl[i], tbl[j] = tbl[j], tbl[i]
-    end
-    return tbl
+	for i = #tbl, 2, -1 do
+		local shuff = math.random(i)
+		tbl[i], tbl[shuff] = tbl[shuff], tbl[i]
+	end
+	return tbl
 end
 
-local function getPlayer(src)
-    if not core then return end
-
-    if frameWork == "esx" then
-        return core.GetPlayerFromId(src)
-    elseif frameWork == "qb" then
-        return core.Functions.GetPlayer(src)
-    end
-end
-
-local function giveItem(src, item, amount, metadata)
-    if GetResourceState("ox_inventory") == "started" then
-        if ox_inventory:CanCarryItem(src, item, amount, metadata) then
-            return ox_inventory:AddItem(src, item, amount, metadata)
-        else
-            local dropId = ox_inventory:CreateDropFromPlayer(src)
-            ox_inventory:AddItem(dropId, item, amount, metadata)
-        end
-        return
-    end
-
-    local Player = getPlayer(src)
-
-    if not Player then return end
-
-    if frameWork == "esx" then
-            Player.addInventoryItem(item, amount, metadata or {})
-    elseif frameWork == "qb" then
-        Player.Functions.AddItem(item, amount, false, metadata or {})
-    end
-end
-
+---@param case table
+---@return table
 local function generateLootPoolFromCase(case)
-    local pool = {}
-    local desiredCounts = {
-        common = 80,
-        uncommon = 16,
-        rare = 3,
-        epic = 0,
-        legendary = 0,
-    }
+	local pool = {}
+	local luck = {
+		common = 80,
+		uncommon = 16,
+		rare = 3,
+		epic = 0,
+		legendary = 0,
+	}
 
-    local rnJesus = math.random(100)
+	local random = math.random(100)
 
-    if rnJesus > 74 then
-        desiredCounts.legendary += 1
-    elseif rnJesus > 10 then
-        desiredCounts.epic += 1
-    else
-        desiredCounts.rare += 1
-    end
+	if random > 74 then
+		luck.legendary = luck.legendary + 1
+	elseif random > 10 then
+		luck.epic = luck.epic + 1
+	else
+		luck.rare = luck.rare + 1
+	end
 
+	for i = 1, PoolSize do
+		local rarity = next(luck)
+		if not rarity then break end
 
-    for i = 1, POOL_SIZE do
-        local rarity = next(desiredCounts)
+		local chosenCase = case[rarity]
+		local chosenItem = chosenCase[math.random(#chosenCase)]
 
-        if not rarity then
-            break
-        end
+		local newItem = {
+			name = chosenItem.name,
+			amount = chosenItem.amount,
+			label = chosenItem.label,
+			rarity = rarity,
+		}
 
-        pool[i] = case[rarity][math.random(#case[rarity])]
-        pool[i].rarity = rarity
+		pool[i] = newItem
 
-        desiredCounts[rarity] -= 1
-        if desiredCounts[rarity] <= 0 then
-            desiredCounts[rarity] = nil
-        end
-    end
+		luck[rarity] = luck[rarity] - 1
+		if luck[rarity] <= 0 then
+			luck[rarity] = nil
+		end
+	end
 
-    shuffle(pool)
+	shuffle(pool)
+	pool = tableConcat(pool, pool)
 
-    pool = tableConcat(pool, pool)
-
-    return pool
+	return pool
 end
 
+---@param source number
+---@param caseIndex number
+lib.callback.register("demi_lootbox:getCaseAndWinner", function(source, caseIndex)
+	local case = CASES[caseIndex]
+	if not case then return end
 
-local playerLootQueue = {}
+	local lootPool = generateLootPoolFromCase(case)
+	local winner = (math.random(#lootPool - PoolSize) + PoolSize)
+	PlayerLootQueue[source] = lootPool[winner]
 
-lib.callback.register('demi_lootbox:getCaseAndWinner', function(source, caseIndex)
-    local case = CASES[caseIndex]
-
-    if not case then return end
-
-    local lootPool = generateLootPoolFromCase(case)
-    local winner = (math.random(#lootPool - POOL_SIZE) + POOL_SIZE)
-    playerLootQueue[source] = lootPool[winner]
-
-    return lootPool, winner - 1
+	return lootPool, winner - 1
 end)
 
-RegisterNetEvent('demi_lootbox:getQueuedItem', function()
-    local source = source
-    if not playerLootQueue[source] then
-        print("^1 ==================================================================================================")
-        print(('^1 [WARNING]: POSSIBLE CHEATER. Player Source %s triggered lootbox get item event while not in queue')
-            :format(source))
-        print('^1 =================================================================================================')
-        print(('^1 PLAYERS IDENTIFIERS = %s'):format(json.encode(GetPlayerIdentifiers(source), { indent = true })))
-        print('^1 =================================================================================================')
-        return
-    end
-    giveItem(source, playerLootQueue[source].name, playerLootQueue[source].amount)
+---@param source number
+lib.callback.register("demi_lootbox:getQueuedItem", function(source)
+	local player = Bridge.getPlayer(source)
+	if not player then return false end
+
+	if not PlayerLootQueue[player.source] then
+		warn("^1 ==================================================================================================")
+		warn(("^1 [WARNING]: POSSIBLE CHEATER. Player Source %s triggered lootbox get item event while not in queue"):format(player.source))
+		warn("^1 =================================================================================================")
+		warn(("^1 PLAYERS IDENTIFIERS = %s"):format(json.encode(GetPlayerIdentifiers(player.source), { indent = true })))
+		warn("^1 =================================================================================================")
+		return false
+	end
+
+	Bridge.addItem(player.source, PlayerLootQueue[player.source].name, PlayerLootQueue[player.source].amount)
 end)
+
+-- #region Debug
+
+if Debug then
+	---@diagnostic disable-next-line: missing-parameter
+	RegisterCommand("cachedata", function(source)
+		local player = Bridge.getPlayer(source)
+		print(json.encode(player))
+	end)
+end
+
+-- #endregion Debug
