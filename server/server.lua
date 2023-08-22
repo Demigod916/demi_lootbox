@@ -81,21 +81,20 @@ lib.callback.register("demi_lootbox:getCaseAndWinner", function(source, caseInde
 	return lootPool, winner - 1
 end)
 
----@param source number
-lib.callback.register("demi_lootbox:getQueuedItem", function(source)
-	local player = Bridge.getPlayer(source)
-	if not player then return false end
 
-	if not PlayerLootQueue[player.source] then
+RegisterNetEvent("demi_lootbox:getQueuedItem", function()
+	local source = source
+	if not PlayerLootQueue[source] then
 		warn("^1 ==================================================================================================")
-		warn(("^1 [WARNING]: POSSIBLE CHEATER. Player Source %s triggered lootbox get item event while not in queue"):format(player.source))
+		warn(("^1 [WARNING]: POSSIBLE CHEATER. Player Source %s triggered lootbox get item event while not in queue")
+		:format(source))
 		warn("^1 =================================================================================================")
-		warn(("^1 PLAYERS IDENTIFIERS = %s"):format(json.encode(GetPlayerIdentifiers(player.source), { indent = true })))
+		warn(("^1 PLAYERS IDENTIFIERS = %s"):format(json.encode(GetPlayerIdentifiers(source), { indent = true })))
 		warn("^1 =================================================================================================")
 		return false
 	end
 
-	Bridge.addItem(player.source, PlayerLootQueue[player.source].name, PlayerLootQueue[player.source].amount)
+	Bridge.addItem(source, PlayerLootQueue[source].name, PlayerLootQueue[source].amount)
 end)
 
 -- #region Debug

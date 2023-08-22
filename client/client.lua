@@ -12,7 +12,7 @@ end
 exports("openCase", getWinnerForCase)
 
 ---@diagnostic disable-next-line: missing-parameter
-RegisterCommand("opencase", function(source, args)
+RegisterCommand("opencase", function(_, args)
 	if #args < 1 then
 		return TriggerEvent("chat:addMessage", "Invalid Syntax. Usage: /opencase [caseName]")
 	end
@@ -22,7 +22,6 @@ RegisterCommand("opencase", function(source, args)
 end)
 
 RegisterNUICallback("finished", function(_, cb)
-	local success = lib.callback.await("demi_lootbox:getQueuedItem", false)
-	if not success then return end
+	TriggerServerEvent('demi_lootbox:getQueuedItem')
 	cb({})
 end)
