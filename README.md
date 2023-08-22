@@ -55,7 +55,7 @@ ideally you would remove this command before putting it in your server
 You can use the exported function to open a case programmatically through an item use or something:
 
 ```lua
-exports.demi_lootbox.openCase(caseName)
+exports.demi_lootbox:openCase(caseName)
 ```
 
 
