@@ -1,7 +1,15 @@
-local ITEMS = exports.ox_inventory:Items() --store all inventory items
+--[[
+    if not using ox_inventory, you will need to manually add the inventory image links to the items in this list.
+        {
+            name = 'WEAPON_PISTOL',
+            amount = 1,
+            imageUrl = 'https://image.png'
+        },
+
+]]
 
 CASES = {
-    ['weapon_case'] = {
+    ['gun_case'] = { -- this index should be the name of the item used if you are triggering this through using an item
         common = {
             {
                 name = 'WEAPON_PISTOL',
@@ -81,12 +89,23 @@ CASES = {
     }
 }
 
---because im lazy and didnt want to add a label to every item
+
 for case, data in pairs(CASES) do
-    for rarity, items in pairs(data) do
+    Bridge.RegisterUsableItem(case, function(src) --register case as a usable item
+        if Bridge.removeItem(src, case, 1) then
+            local lootPool, winner = GetCaseData(case)
+            TriggerClientEvent('demi_lootbox:RollCase', src, lootPool, winner)
+        end
+    end)
+
+    for rarity, items in pairs(data) do --because im lazy and didnt want to add a label to every item
         for i = 1, #items do
             local item = CASES[case][rarity][i]
-            CASES[case][rarity][i].label = ITEMS[item.name].label
+            CASES[case][rarity][i].label = Bridge.getitemLabel(item.name)
         end
     end
+end
+
+for i = 1, #FishingConfig.BaitTypes do -- DONT TOUCH THIS . this will take your list of baits from the config and set them up to swap your current bait type. if you change this, the script wont work properly.
+    local bait = FishingConfig.BaitTypes[i]
 end

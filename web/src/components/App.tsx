@@ -56,7 +56,6 @@ const App: React.FC = () => {
 
     setTimeout(() => {
       setLootData(data);
-      audioRef.current.currentTime = 1.0;
       audioRef.current.play();
     }, 500);
   };

@@ -62,7 +62,7 @@ end
 
 local playerLootQueue = {}
 
-lib.callback.register('demi_lootbox:getCaseAndWinner', function(source, caseIndex)
+function GetCaseData(caseIndex)
     local case = CASES[caseIndex]
 
     if not case then return end
@@ -72,7 +72,7 @@ lib.callback.register('demi_lootbox:getCaseAndWinner', function(source, caseInde
     playerLootQueue[source] = lootPool[winner]
 
     return lootPool, winner - 1
-end)
+end
 
 RegisterNetEvent('demi_lootbox:getQueuedItem', function()
     local source = source
@@ -88,4 +88,13 @@ RegisterNetEvent('demi_lootbox:getQueuedItem', function()
     end
 
     Bridge.GiveItem(source, playerLootQueue[source].name, playerLootQueue[source].amount)
+end)
+
+
+exports('addNewLootBox', function(name, contents)
+    CASES[name] = contents
+end)
+
+exports('removeLootBox', function(name)
+    CASES[name] = nil
 end)
