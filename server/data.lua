@@ -105,7 +105,3 @@ for case, data in pairs(CASES) do
         end
     end
 end
-
-for i = 1, #FishingConfig.BaitTypes do -- DONT TOUCH THIS . this will take your list of baits from the config and set them up to swap your current bait type. if you change this, the script wont work properly.
-    local bait = FishingConfig.BaitTypes[i]
-end
