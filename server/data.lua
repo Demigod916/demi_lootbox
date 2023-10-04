@@ -93,7 +93,7 @@ CASES = {
 for case, data in pairs(CASES) do
     Bridge.RegisterUsableItem(case, function(src) --register case as a usable item
         if Bridge.removeItem(src, case, 1) then
-            local lootPool, winner = GetCaseData(case)
+            local lootPool, winner = GetCaseData(src, case)
             TriggerClientEvent('demi_lootbox:RollCase', src, lootPool, winner)
         end
     end)

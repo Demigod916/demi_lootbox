@@ -62,7 +62,7 @@ end
 
 local playerLootQueue = {}
 
-function GetCaseData(caseIndex)
+function GetCaseData(source, caseIndex)
     local case = CASES[caseIndex]
 
     if not case then return end
@@ -79,11 +79,11 @@ RegisterNetEvent('demi_lootbox:getQueuedItem', function()
 
     if not playerLootQueue[source] then
         print("^1 ==================================================================================================")
-        print(('^1 [WARNING]: POSSIBLE CHEATER. Player Source %s triggered lootbox get item event while not in queue')
+        print((' [WARNING]: POSSIBLE CHEATER. Player Source %s triggered lootbox get item event while not in queue')
             :format(source))
-        print('^1 =================================================================================================')
-        print(('^1 PLAYERS IDENTIFIERS = %s'):format(json.encode(GetPlayerIdentifiers(source), { indent = true })))
-        print('^1 =================================================================================================')
+        print('=================================================================================================')
+        print(('PLAYERS IDENTIFIERS = %s'):format(json.encode(GetPlayerIdentifiers(source), { indent = true })))
+        print('=================================================================================================^7')
         return
     end
 
@@ -92,7 +92,14 @@ end)
 
 
 exports('addNewLootBox', function(name, contents)
+    if CASES[name] then return end
     CASES[name] = contents
+    Bridge.RegisterUsableItem(name, function(src) --register case as a usable item
+        if Bridge.removeItem(src, name, 1) then
+            local lootPool, winner = GetCaseData(src, name)
+            TriggerClientEvent('demi_lootbox:RollCase', src, lootPool, winner)
+        end
+    end)
 end)
 
 exports('removeLootBox', function(name)

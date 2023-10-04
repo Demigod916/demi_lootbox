@@ -7,9 +7,9 @@ local function getPlayer(src)
         return
     end
 
-    if frameWork == "esx" then
+    if Bridge.frameWork == "esx" then
         return core.GetPlayerFromId(src)
-    elseif frameWork == "qb" then
+    elseif Bridge.frameWork == "qb" then
         return core.Functions.GetPlayer(src)
     end
 end
@@ -29,12 +29,12 @@ function Bridge.removeItem(src, item, amount, slot)
 
     if not hasEnough then return false end
 
-    if frameWork == "esx" then
+    if Bridge.frameWork == "esx" then
         if hasEnough then
             Player.removeInventoryItem(item, amount)
         end
         return hasEnough
-    elseif frameWork == "qb" then
+    elseif Bridge.frameWork == "qb" then
         return Player.Functions.RemoveItem(item, amount, slot)
     end
 end
@@ -59,11 +59,11 @@ function Bridge.giveItem(src, item, amount, metadata, checkWeight)
 
     if not Player then return end
 
-    if frameWork == "esx" then
+    if Bridge.frameWork == "esx" then
         if not checkWeight or Player.canCarryItem(item, amount) then
             Player.addInventoryItem(item, amount, metadata or {})
         end
-    elseif frameWork == "qb" then
+    elseif Bridge.frameWork == "qb" then
         Player.Functions.AddItem(item, amount, false, metadata or {})
     end
 end
@@ -80,9 +80,9 @@ function Bridge.getitemLabel(item)
         return
     end
 
-    if frameWork == "esx" then
+    if Bridge.frameWork == "esx" then
         return core.GetItemLabel(item)
-    elseif frameWork == "qb" then
+    elseif Bridge.frameWork == "qb" then
         return core.shared.Items(item).label
     end
 end
@@ -92,13 +92,11 @@ function Bridge.RegisterUsableItem(item, cb)
     local core = Bridge.core
 
     if not core then
-        print("error: no core found")
         return
     end
-
-    if frameWork == "esx" then
+    if Bridge.frameWork == "esx" then
         core.RegisterUsableItem(item, cb)
-    elseif frameWork == "qb" then
+    elseif Bridge.frameWork == "qb" then
         core.Functions.CreateUseableItem(item, cb)
     end
 end
