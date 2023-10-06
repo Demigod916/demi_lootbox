@@ -95,7 +95,9 @@ exports('addNewLootBox', function(name, contents, cb)
     if CASES[name] then return end
     CASES[name] = contents
     Bridge.RegisterUsableItem(name, function(src)
-        cb(src)
+        if cb then
+            cb(src)
+        end
         if Bridge.removeItem(src, name, 1) then
             local lootPool, winner = GetCaseData(src, name)
             TriggerClientEvent('demi_lootbox:RollCase', src, lootPool, winner)
