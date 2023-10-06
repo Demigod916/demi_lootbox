@@ -87,14 +87,15 @@ RegisterNetEvent('demi_lootbox:getQueuedItem', function()
         return
     end
 
-    Bridge.GiveItem(source, playerLootQueue[source].name, playerLootQueue[source].amount)
+    Bridge.giveItem(source, playerLootQueue[source].name, playerLootQueue[source].amount)
 end)
 
 
-exports('addNewLootBox', function(name, contents)
+exports('addNewLootBox', function(name, contents, cb)
     if CASES[name] then return end
     CASES[name] = contents
-    Bridge.RegisterUsableItem(name, function(src) --register case as a usable item
+    Bridge.RegisterUsableItem(name, function(src)
+        cb(src)
         if Bridge.removeItem(src, name, 1) then
             local lootPool, winner = GetCaseData(src, name)
             TriggerClientEvent('demi_lootbox:RollCase', src, lootPool, winner)

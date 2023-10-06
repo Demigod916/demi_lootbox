@@ -10,7 +10,7 @@
 - **UI:** A UI that gives players a sense of anticipation when opening cases.
 
 ## Dependecies
-- ox_lib
+
 - ESX, QB, or standalone with ox_inventory.
 
 ## Installation
@@ -28,38 +28,107 @@ Example:
 
 ```lua
 CASES = {
-    ['weapon_case'] = {
+    ['gun_case'] = {
         common = {
             {
                 name = 'WEAPON_PISTOL',
                 amount = 1,
             },
-            ...
+            {
+                name = 'WEAPON_SNSPISTOL',
+                amount = 1,
+            },
         },
-        ...
+        uncommon = {
+            {
+                name = 'WEAPON_HEAVYPISTOL',
+                amount = 1,
+            },
+        },
+        rare = {
+            {
+                name = 'WEAPON_APPISTOL',
+                amount = 1,
+            },
+        },
+        epic = {
+            {
+                name = 'WEAPON_COMBATPDW',
+                amount = 1,
+            },
+
+        },
+        legendary = {
+            {
+                name = 'WEAPON_RPG',
+                amount = 1,
+            },
+        },
     }
 }
 ```
 
-## Usage
+## Exported Functions (server)
 
-To test a case:
-```
-/opencase [case_name]
-```
-Replace `[case_name]` with the actual name of the case you want to open (for instance, `weapon_case`).
+### openCase
 
-ideally you would remove this command before putting it in your server
-
-## Exported Functions
-You can use the exported function to open a case programmatically through an item use or something:
+exported function to open a specified case:
 
 ```lua
 exports.demi_lootbox:openCase(caseName)
 ```
 
+### addNewLootBox
+
+You can use the exported function to open a case programmatically through an item use or something:
+
+```lua
+exports.demi_lootbox:addNewLootBox(caseName, caseContents, cb)
+```
+
+the cb function will run before the case is opened
+
+**Example:**
+
+```lua
+		exports.demi_lootbox:addNewLootBox('fishing_chest_money', {
+			common = {
+				{
+					name = 'money',
+					amount = 500
+				}
+			},
+			uncommon = {
+				{
+					name = 'money',
+					amount = 2500
+				}
+			},
+			rare = {
+				{
+					name = 'money',
+					amount = 5000
+				}
+			},
+			epic = {
+				{
+					name = 'money',
+					amount = 7500
+				}
+			},
+			legendary = {
+				{
+					name = 'money',
+					amount = 10000
+				}
+			},
+		}, function(src)
+			TriggerClientEvent('rb-fishing:chestScene', src)
+		end)
+```
 
 ## Probabilities
+
 for those curious about the chances
 
 - Common: 80%
@@ -68,13 +137,6 @@ for those curious about the chances
 - Epic: 0.64%
 - Legendary: 0.26%
 
-## Client-Side Functions
-
-- `getWinnerForCase(case)`: A function to get the winning item for a specific case.
-- Command `/opencase`: To open a specified case.
-- NUI Callback for when the case opening animation finishes.
-
 ## Feedback & Support
 
 For any feedback or support regarding the script, please reach out in the forums or discord `demiautomatic`.
-

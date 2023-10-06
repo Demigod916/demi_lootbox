@@ -5,7 +5,6 @@ game "gta5"
 ui_page 'web/build/index.html'
 
 shared_scripts {
-  '@ox_lib/init.lua',
   'init.lua'
 }
 
@@ -21,5 +20,3 @@ files {
   'web/build/index.html',
   'web/build/**/*',
 }
-
-dependency 'ox_lib'

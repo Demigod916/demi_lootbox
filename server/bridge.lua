@@ -71,7 +71,8 @@ end
 
 function Bridge.getitemLabel(item)
     if GetResourceState("ox_inventory") == "started" then
-        return ox_inventory:Items()[item].label
+        local item = ox_inventory:Items()[item]
+        return item?.label or "ERROR"
     end
 
     local core = Bridge.core
