@@ -84,7 +84,7 @@ function Bridge.getitemLabel(item)
     if Bridge.frameWork == "esx" then
         return core.GetItemLabel(item)
     elseif Bridge.frameWork == "qb" then
-        return core.shared.Items(item).label
+        return core.Shared.Items[item].label
     end
 end
 
