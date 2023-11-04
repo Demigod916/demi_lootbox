@@ -14,6 +14,24 @@ local function getPlayer(src)
     end
 end
 
+function Bridge.getItemCount(src, item)
+    if GetResourceState("ox_inventory") == "started" then
+        return ox_inventory:GetItemCount(src, item)
+    end
+
+    local Player = Bridge.getPlayer(src)
+
+    if not Player then return end
+
+    if frameWork == "esx" then
+        local itemData = Player.getInventoryItem(item)
+        return itemData?.count or 0
+    elseif frameWork == "qb" then
+        local itemData = Player.Functions.GetItemByName(item)
+        return itemData?.amount or 0
+    end
+end
+
 function Bridge.removeItem(src, item, amount, slot)
     amount = amount or 1
 
