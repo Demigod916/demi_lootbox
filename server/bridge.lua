@@ -19,7 +19,7 @@ function Bridge.getItemCount(src, item)
         return ox_inventory:GetItemCount(src, item)
     end
 
-    local Player = Bridge.getPlayer(src)
+    local Player = getPlayer(src)
 
     if not Player then return end
 
