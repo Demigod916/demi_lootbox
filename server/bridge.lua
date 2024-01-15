@@ -23,12 +23,12 @@ function Bridge.getItemCount(src, item)
 
     if not Player then return end
 
-    if frameWork == "esx" then
+    if Bridge.frameWork == "esx" then
         local itemData = Player.getInventoryItem(item)
-        return itemData?.count or 0
-    elseif frameWork == "qb" then
+        return (itemData and itemData.count) or 0
+    elseif Bridge.frameWork == "qb" then
         local itemData = Player.Functions.GetItemByName(item)
-        return itemData?.amount or 0
+        return (itemData and itemData.amount) or 0
     end
 end
 
@@ -86,11 +86,10 @@ function Bridge.giveItem(src, item, amount, metadata, checkWeight)
     end
 end
 
-
 function Bridge.getitemLabel(item)
     if GetResourceState("ox_inventory") == "started" then
         local item = ox_inventory:Items()[item]
-        return item?.label or "ERROR"
+        return (item and item.label) or "ERROR"
     end
 
     local core = Bridge.core
@@ -102,10 +101,13 @@ function Bridge.getitemLabel(item)
     if Bridge.frameWork == "esx" then
         return core.GetItemLabel(item)
     elseif Bridge.frameWork == "qb" then
+        if not core.Shared.Items[item] then
+            print(string.format('ERROR: the item %s does not exist in shared items', item))
+            return
+        end
         return core.Shared.Items[item].label
     end
 end
-
 
 function Bridge.RegisterUsableItem(item, cb)
     local core = Bridge.core
