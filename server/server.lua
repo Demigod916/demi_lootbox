@@ -103,6 +103,13 @@ exports('addNewLootBox', function(name, contents, cb)
             TriggerClientEvent('demi_lootbox:RollCase', src, lootPool, winner)
         end
     end)
+
+    for rarity, items in pairs(contents) do --because im lazy and didnt want to add a label to every item
+        for i = 1, #items do
+            local item = CASES[name][rarity][i]
+            CASES[name][rarity][i].label = Bridge.getitemLabel(item.name)
+        end
+    end
 end)
 
 exports('removeLootBox', function(name)
