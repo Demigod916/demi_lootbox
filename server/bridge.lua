@@ -2,11 +2,12 @@ local ox_inventory = exports.ox_inventory
 local core = Bridge.core
 local framework = Bridge.frameWork
 
+if not core then
+    print("error: no core found")
+    return
+end
+
 local function getPlayer(src)
-    if not core then
-        print("error: no core found")
-        return
-    end
 
     if framework == "esx" then
         return core.GetPlayerFromId(src)
@@ -95,11 +96,6 @@ function Bridge.getitemLabel(item)
         return (item and item.label) or "ERROR"
     end
 
-    if not core then
-        print("error: no core found")
-        return
-    end
-
     if framework == "esx" then
         return core.GetItemLabel(item)
     elseif framework == "qb" then
@@ -112,10 +108,6 @@ function Bridge.getitemLabel(item)
 end
 
 function Bridge.RegisterUsableItem(item, cb)
-
-    if not core then
-        return
-    end
     if framework == "esx" then
         core.RegisterUsableItem(item, cb)
     elseif framework == "qb" then
