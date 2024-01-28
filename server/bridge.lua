@@ -1,15 +1,16 @@
 local ox_inventory = exports.ox_inventory
+local core = Bridge.core
+local framework = Bridge.frameWork
 
 local function getPlayer(src)
-    local core = Bridge.core
     if not core then
         print("error: no core found")
         return
     end
 
-    if Bridge.frameWork == "esx" then
+    if framework == "esx" then
         return core.GetPlayerFromId(src)
-    elseif Bridge.frameWork == "qb" then
+    elseif framework == "qb" then
         return core.Functions.GetPlayer(src)
     end
 end
@@ -23,10 +24,10 @@ function Bridge.getItemCount(src, item)
 
     if not Player then return end
 
-    if Bridge.frameWork == "esx" then
+    if framework == "esx" then
         local itemData = Player.getInventoryItem(item)
         return (itemData and itemData.count) or 0
-    elseif Bridge.frameWork == "qb" then
+    elseif framework == "qb" then
         local itemData = Player.Functions.GetItemByName(item)
         return (itemData and itemData.amount) or 0
     end
@@ -47,12 +48,13 @@ function Bridge.removeItem(src, item, amount, slot)
 
     if not hasEnough then return false end
 
-    if Bridge.frameWork == "esx" then
+    if framework == "esx" then
         if hasEnough then
             Player.removeInventoryItem(item, amount)
         end
         return hasEnough
-    elseif Bridge.frameWork == "qb" then
+    elseif framework == "qb" then
+        TriggerEvent("inventory:client:ItemBox", core?.Shared.Items[item], "remove", amount)
         return Player.Functions.RemoveItem(item, amount, slot)
     end
 end
@@ -77,11 +79,12 @@ function Bridge.giveItem(src, item, amount, metadata, checkWeight)
 
     if not Player then return end
 
-    if Bridge.frameWork == "esx" then
+    if framework == "esx" then
         if not checkWeight or Player.canCarryItem(item, amount) then
             Player.addInventoryItem(item, amount, metadata or {})
         end
-    elseif Bridge.frameWork == "qb" then
+    elseif framework == "qb" then
+        TriggerEvent("inventory:client:ItemBox", core?.Shared.Items[item], "add", amount)
         Player.Functions.AddItem(item, amount, false, metadata or {})
     end
 end
@@ -92,15 +95,14 @@ function Bridge.getitemLabel(item)
         return (item and item.label) or "ERROR"
     end
 
-    local core = Bridge.core
     if not core then
         print("error: no core found")
         return
     end
 
-    if Bridge.frameWork == "esx" then
+    if framework == "esx" then
         return core.GetItemLabel(item)
-    elseif Bridge.frameWork == "qb" then
+    elseif framework == "qb" then
         if not core.Shared.Items[item] then
             print(string.format('ERROR: the item %s does not exist in shared items', item))
             return
@@ -110,14 +112,13 @@ function Bridge.getitemLabel(item)
 end
 
 function Bridge.RegisterUsableItem(item, cb)
-    local core = Bridge.core
 
     if not core then
         return
     end
-    if Bridge.frameWork == "esx" then
+    if framework == "esx" then
         core.RegisterUsableItem(item, cb)
-    elseif Bridge.frameWork == "qb" then
+    elseif framework == "qb" then
         core.Functions.CreateUseableItem(item, cb)
     end
 end
