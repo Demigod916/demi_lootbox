@@ -2,7 +2,7 @@ fx_version "cerulean"
 lua54 'yes'
 game "gta5"
 
-version '1.0.4'
+version '1.0.5'
 
 ui_page 'web/build/index.html'
 
