@@ -55,7 +55,7 @@ function Bridge.removeItem(src, item, amount, slot)
         end
         return hasEnough
     elseif framework == "qb" then
-        TriggerEvent("inventory:client:ItemBox", core?.Shared.Items[item], "remove", amount)
+        TriggerClientEvent("inventory:client:ItemBox", src, core?.Shared.Items[item], "remove", amount)
         return Player.Functions.RemoveItem(item, amount, slot)
     end
 end
@@ -85,7 +85,7 @@ function Bridge.giveItem(src, item, amount, metadata, checkWeight)
             Player.addInventoryItem(item, amount, metadata or {})
         end
     elseif framework == "qb" then
-        TriggerEvent("inventory:client:ItemBox", core?.Shared.Items[item], "add", amount)
+        TriggerClientEvent("inventory:client:ItemBox", src, core?.Shared.Items[item], "add", amount)
         Player.Functions.AddItem(item, amount, false, metadata or {})
     end
 end
