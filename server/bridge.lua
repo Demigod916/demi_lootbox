@@ -60,6 +60,18 @@ function Bridge.removeItem(src, item, amount, slot)
     end
 end
 
+function Bridge.addMoney(src, amount)
+    local Player = Bridge.getPlayer(src)
+
+    if not Player then return end
+
+    if framework == 'esx' then
+        Player.addAccountMoney("money", amount)
+    elseif framework == 'qb' then
+        return Player.Functions.AddMoney("cash", amount)
+    end
+end
+
 function Bridge.giveItem(src, item, amount, metadata, checkWeight)
     local PlayerState = Player(src).state
 
@@ -80,6 +92,11 @@ function Bridge.giveItem(src, item, amount, metadata, checkWeight)
 
     if not Player then return end
 
+    if item == 'money' then
+        Bridge.addMoney(src, amount)
+        return
+    end
+    
     if framework == "esx" then
         if not checkWeight or Player.canCarryItem(item, amount) then
             Player.addInventoryItem(item, amount, metadata or {})
