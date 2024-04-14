@@ -70,14 +70,6 @@ CASES = {
 
 ## Exported Functions (server)
 
-### openCase
-
-exported function to open a specified case:
-
-```lua
-exports.demi_lootbox:openCase(caseName)
-```
-
 ### addNewLootBox
 
 You can use the exported function to open a case programmatically through an item use or something:
