@@ -14,6 +14,9 @@ CASES = {
             {
                 name = 'WEAPON_PISTOL',
                 amount = 1,
+                additionalItems = {
+                    { name = 'ammo-9', amount = 3 }
+                }
             },
             {
                 name = 'WEAPON_SNSPISTOL',

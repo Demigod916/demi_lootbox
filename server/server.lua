@@ -76,8 +76,8 @@ end
 
 RegisterNetEvent('demi_lootbox:getQueuedItem', function()
     local source = source
-
-    if not playerLootQueue[source] then
+    local loot = playerLootQueue[source]
+    if not loot then
         print("^1 ==================================================================================================")
         print((' [WARNING]: POSSIBLE CHEATER. Player Source %s triggered lootbox get item event while not in queue')
             :format(source))
@@ -87,7 +87,14 @@ RegisterNetEvent('demi_lootbox:getQueuedItem', function()
         return
     end
 
-    Bridge.giveItem(source, playerLootQueue[source].name, playerLootQueue[source].amount)
+    if loot.additionalItems then
+        for i = 1, #loot.additionalItems do
+            local item = loot.additionalItems[i]
+            Bridge.giveItem(source, item.name, item.amount)
+        end
+    end
+
+    Bridge.giveItem(source, loot.name, loot.amount)
 end)
 
 
