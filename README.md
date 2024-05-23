@@ -72,8 +72,6 @@ CASES = {
 
 ### addNewLootBox
 
-You can use the exported function to open a case programmatically through an item use or something:
-
 ```lua
 exports.demi_lootbox:addNewLootBox(caseName, caseContents, cb)
 ```
